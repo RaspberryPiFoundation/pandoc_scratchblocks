@@ -5,10 +5,14 @@ import shutil
 import sys
 import os
 import os.path
+import hashlib
 import subprocess
 from string import Template
 
 from tempfile import mkdtemp
+
+def sha1(x):
+  return hashlib.sha1(x).hexdigest()
 
 base = os.path.dirname(__file__)
 scratchblocks2 = os.path.join(base, "scratchblocks2")
@@ -20,13 +24,10 @@ with open(os.path.join(base, "scratch_template.html")) as fh:
 
 tempdir = None
 
-count = 0 
-
 def block_to_image(block, output_dir):
-    global count
-    html_file = os.path.join(tempdir, "%d.html"%(count))
-    image_file = os.path.join(output_dir, "%d.png"%(count))
-    count +=1
+    name = sha1(block)
+    html_file = os.path.join(tempdir, "%s.html"%(name))
+    image_file = os.path.join(output_dir, "%s.png"%(name))
 
     with open(html_file,"wb") as fh:
         raw = html_template.substitute(block=block)
