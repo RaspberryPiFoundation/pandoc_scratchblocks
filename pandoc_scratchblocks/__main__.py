@@ -29,11 +29,12 @@ def block_to_image(block, output_dir):
     html_file = os.path.join(tempdir, "%s.html"%(name))
     image_file = os.path.join(output_dir, "%s.png"%(name))
 
-    with open(html_file,"wb") as fh:
-        raw = html_template.substitute(block=block)
-        fh.write(raw)
+    if not os.path.exists(image_file):
+        with open(html_file,"wb") as fh:
+            raw = html_template.substitute(block=block)
+            fh.write(raw)
 
-    subprocess.check_call(['phantomjs', rasterize, html_file, image_file])
+        subprocess.check_call(['phantomjs', rasterize, html_file, image_file])
     return image_file
     
     
