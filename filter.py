@@ -16,6 +16,7 @@ def sha1(x):
     return hashlib.sha1(x).hexdigest()
 
 base = os.path.dirname(__file__)
+phantomjs = (os.path.join(base, "..", "..", "node_modules", ".bin", "phantomjs"), "phantomjs")[os.path.isfile("phantomjs")]
 scratchblocks2 = os.path.join(base, "scratchblocks2")
 rasterize = os.path.join(base, "rasterize.js")
 jquery = os.path.join(base, "jquery.min.js")
@@ -37,7 +38,7 @@ def block_to_image(block, lang, output_dir):
             raw = html_template.substitute(block=cgi.escape(block), lang=lang)
             fh.write(raw)
 
-        subprocess.check_call(['phantomjs', rasterize, html_file, image_file])
+        subprocess.check_call([phantomjs, rasterize, html_file, image_file])
     return image_file
 
 
