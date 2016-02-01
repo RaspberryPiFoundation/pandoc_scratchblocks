@@ -34,13 +34,20 @@
         <script src="scratchblocks2/scratchblocks2.js"></script>
         <script src="scratchblocks2/translations-all.js"></script>
         <script>
-            var lang = "${lang}";
+            var lang = "${lang}".replace('-', '_');
 
             scratchblocks2.reset_languages();
 
-            for (var language in scratchblocks2._translations) {
-                if  (!lang || lang == language || lang.indexOf(language) == 0) {
-                    scratchblocks2.load_language(scratchblocks2._translations[language]);
+            if (lang) {
+                if (lang in scratchblocks2._translations) {
+                    scratchblocks2.load_language(scratchblocks2._translations[lang]);
+                }
+                else {
+                    for (var language in scratchblocks2._translations) {
+                        if (lang.indexOf(language) === 0) {
+                            scratchblocks2.load_language(scratchblocks2._translations[language]);
+                        }
+                    }
                 }
             }
 
