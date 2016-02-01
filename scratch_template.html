@@ -39,15 +39,11 @@
             scratchblocks2.reset_languages();
 
             if (lang) {
+                if (!(lang in scratchblocks2._translations)) {
+                    lang = lang.split('_')[0];
+                }
                 if (lang in scratchblocks2._translations) {
                     scratchblocks2.load_language(scratchblocks2._translations[lang]);
-                }
-                else {
-                    for (var language in scratchblocks2._translations) {
-                        if (lang.indexOf(language) === 0) {
-                            scratchblocks2.load_language(scratchblocks2._translations[language]);
-                        }
-                    }
                 }
             }
 
